@@ -4,9 +4,9 @@ public class Main {
 	
 	public static void main(String args[])
 	{
-		System.out.println("Goodbye");
-		System.out.println("Hello");
-		System.out.println("Hello");
+		SystemFrame sysFrame = new SystemFrame();
+		
+		sysFrame.showFrame();
 
 		
 	}
