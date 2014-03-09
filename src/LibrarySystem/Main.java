@@ -1,6 +1,6 @@
-package test;
+package LibrarySystem;
 
-public class helloworld {
+public class Main {
 	
 	public static void main(String args[])
 	{
