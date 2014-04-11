@@ -96,6 +96,8 @@ public class LoginScreen extends JFrame {
 			public static void main(String arg[])
 			{
 				 new LoginScreen();
+				 dbManager db = new dbManager();
+				 db.getConnection();
 				//l.setVisible(true);
 				
 
