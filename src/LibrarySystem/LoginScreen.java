@@ -8,6 +8,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
@@ -18,6 +19,7 @@ public class LoginScreen extends JFrame {
 	private JButton exit,login;
 	public JTextField user,password;
 	private JLabel luser,lpassword;
+	
 	//welcome w = new welcome();
 	
 
@@ -78,12 +80,31 @@ public class LoginScreen extends JFrame {
 					{
 						if(e.getSource() == login)
 						{
-							setVisible(false);
-							SearchScreen s = new SearchScreen();
-							s.setVisible(true);
-							System.out.print("hello");
 							
-							
+							String us = user.getText();
+							String pass = password.getText();
+						dbManager db= new dbManager();
+						String storedpass = null;
+						try {
+							storedpass = db.getPassword(us);
+							if(!pass.equals(storedpass))
+							{
+								JOptionPane.showMessageDialog(null,"Login Unsuccessful! try again");
+								
+							}
+							else if(pass.equals(storedpass))
+							{
+								JOptionPane.showMessageDialog(null,"Login successful!");
+								setVisible(false);
+								SearchScreen s = new SearchScreen();
+								s.setVisible(true);
+							}		
+						} catch (ClassNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}	
+						
+				
 						}
 						if(e.getSource()== exit)
 						{
@@ -96,10 +117,7 @@ public class LoginScreen extends JFrame {
 			public static void main(String arg[])
 			{
 				 new LoginScreen();
-				 dbManager db = new dbManager();
-				 db.getConnection();
-				//l.setVisible(true);
-				
+				 
 
 			}
 }

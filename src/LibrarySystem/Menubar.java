@@ -8,10 +8,15 @@ import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 
 public class Menubar implements ActionListener {
-	JMenuItem newbook,editbook,retirebook,allbook,bookloan,odbook,
-	addcust,editcust,delcust,scult,allcult,cwbol,cwob,
+	JMenuItem newbook,sbook,allbook,bookloan,odbook,
+	addcust,scult,allcult,cwbol,cwob,
 	lbook,rbook,allloan,oloan;
 	JMenu book,customer,loan,logout;
+	AddBook ab = new AddBook();
+	AddCust ac = new AddCust();
+	
+	
+	
 	/**
 	 * @param args
 	 */
@@ -22,8 +27,7 @@ public class Menubar implements ActionListener {
 		
 		//craete the menu item "new"
 		newbook = new JMenuItem("Add new book");
-		editbook = new JMenuItem("Edit exiting book");
-		retirebook = new JMenuItem("Retire book");
+		sbook = new JMenuItem("Search books");
 		allbook = new JMenuItem("All books");
 		bookloan = new JMenuItem("Books on loan"); 
 		odbook = new JMenuItem("Overdue Books");
@@ -34,9 +38,7 @@ public class Menubar implements ActionListener {
 		//adding the book menu items to menu
 				book.add(newbook);
 				book.addSeparator();													//adding a line as in design
-				book.add(editbook);
-				book.addSeparator();
-				book.add(retirebook);
+				book.add(sbook);
 				book.addSeparator();
 				book.add(bookview);														//adding items to sub menu
 				bookview.add(allbook);													//adding items to sub menu
@@ -47,8 +49,7 @@ public class Menubar implements ActionListener {
 				
 				//adding action listener to all the JMenuitems
 			    newbook.addActionListener(this);
-			    editbook.addActionListener(this);
-			    retirebook.addActionListener(this);
+			    sbook.addActionListener(this);
 			    allbook.addActionListener(this);
 			    bookloan.addActionListener(this);
 			    odbook.addActionListener(this);	
@@ -63,8 +64,6 @@ public class Menubar implements ActionListener {
 		
 				//craete the menu item 
 				addcust = new JMenuItem("Add customer");
-				editcust= new JMenuItem("Edit customer");
-				delcust= new JMenuItem("Delete customer");
 				scult= new JMenuItem("Search customer");
 				allcult= new JMenuItem("All customers");
 				cwbol= new JMenuItem("Customers with books on loan");
@@ -76,11 +75,7 @@ public class Menubar implements ActionListener {
 				
 				//customer menu items
 				customer.add(addcust);
-				customer.addSeparator();
-				customer.add(editcust);
-				customer.addSeparator();
-				customer.add(delcust);
-				customer.addSeparator();
+				customer.addSeparator();				
 				customer.add(scult);
 				customer.addSeparator();
 				customer.add(cultview);
@@ -92,8 +87,6 @@ public class Menubar implements ActionListener {
 				
 				//adding action listener to all the JMenuitems 
 				addcust.addActionListener(this);
-				editcust.addActionListener(this);
-				delcust.addActionListener(this);
 				scult.addActionListener(this);
 				allcult.addActionListener(this);
 				cwbol.addActionListener(this);
@@ -146,22 +139,23 @@ public class Menubar implements ActionListener {
 		// TODO Auto-generated method stub
 		
 		if(e.getSource()==logout)
-		{
-			
-			
+		{	
 		}
 		if(e.getSource()==newbook)
 		{
+			ab.setVisible(true);
+		}
+		if(e.getSource()==allbook)
+		{
+			new allbook();
+			
 			
 		}
-		if(e.getSource()==editbook)
+		if(e.getSource()==sbook)
 		{
 			
 		}
-		if(e.getSource()==retirebook)
-		{
-			
-		}
+		
 		if(e.getSource()==bookloan)
 		{
 			
@@ -172,15 +166,7 @@ public class Menubar implements ActionListener {
 		}
 		if(e.getSource()==addcust)
 		{
-			
-		}
-		if(e.getSource()==editcust)
-		{
-			
-		}
-		if(e.getSource()==delcust)
-		{
-			
+			ac.setVisible(true);
 		}
 		if(e.getSource()==scult)
 		{

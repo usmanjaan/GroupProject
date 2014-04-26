@@ -2,12 +2,11 @@ package LibrarySystem;
 
 
 import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
 import java.util.ArrayList;
-import java.util.Arrays;
+
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -23,50 +22,38 @@ import javax.swing.JTextField;
 import javax.swing.table.JTableHeader;
 
 
-public class BSresult {
+public class allbook {
    
 	JButton edit,loan,delete;
 	JLabel title,label1,limage;
 	JTextField tf1,tf2,tf3;
 	ImageIcon image;
-	 
-	  int len = 5;
-	    int textSize = 20;
-	    String[] fields = {"Title", "ISBN", "Author", "Image" ,"Available"};
-	    JTextField[] texts = {new JTextField(textSize), 
-	        new JTextField(textSize), 
-	        new JTextField(textSize), 
-	        new JTextField(textSize), 
-	        new JTextField(textSize)};
-	    // used to access submitted values
-	    String[] results = {"null", "null", "null", "null","null"};
 	
-	public BSresult(String text) throws ClassNotFoundException {
-		final JFrame frame = new JFrame("Creating a Scrollable JTable!");
+	public allbook(){
+		final JFrame frame = new JFrame("All Books");
 		  JPanel panel = new JPanel();
 
 		dbManager db= new dbManager();
+		db.getConnection();
 		//String jsearch = "DaVinci Code";//ss.search.getText();
 		//System.out.print(jsearch);
+		
+		
 		ArrayList<String[]>  tableData=new ArrayList<>();
+		 try{
+			 tableData = db.AllBook();
+		 }catch(Exception e)
+		 {
+			 
+		 }
 		 
-		 tableData = db.getAllBook(text);
 		
 		String[][] tableRows = tableData.toArray(new String[tableData.size()][]); // convert the ArrayList to a regular Array
 
-		
-		 
 		String[] columnNames =  {"title","author","isbn","image","available"};
-		final JTable table = new JTable( tableRows, columnNames );  
+		final JTable table = new JTable( tableRows, columnNames );
 		
-		String dd = Arrays.deepToString(tableRows).replaceAll("\r", "\n");
-		System.out.print(dd);
-		
-		
-		
-		
-		JTableHeader header = table.getTableHeader();
-		 header.setBackground(Color.yellow);
+		//JTableHeader header = table.getTableHeader();
 		  JScrollPane pane = new JScrollPane(table);
 		  table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		  panel.add(pane);
@@ -80,46 +67,11 @@ public class BSresult {
 		  table.addMouseListener(new MouseAdapter(){
 			  public void mouseClicked(MouseEvent e)
 			  {
-				
-				  
-				 
-				  
-				/*main dialog frame
-			        JPanel pan = new JPanel();
-			        pan.setLayout(new GridLayout(7, 1));
-			        // dialog title
-			        pan.add(new JLabel("Add New Book"));
-			       
-			        
-			        for (int i = 0; i < len; i++) {
-			        	JPanel temp = new JPanel();
-			        	temp.add(new JLabel(fields[i]));
-			        	
-			        	temp.add(texts[i]);
-			        	
-			        	pan.add(temp);
-			        }
-				  
-			        int selectedRowIndex = table.getSelectedRow();
-			        int selectedColumnIndex = table.getSelectedColumn();
-
-			        Object ty = table.getModel().getValueAt(selectedRowIndex, selectedColumnIndex);
-			        		//texts[0].set
-			        		
-			        JDialog dialog = new JDialog();
-					  dialog.setLocationRelativeTo(frame);
-					  dialog.setSize(300, 300);
-					  dialog.setModal(true);
-					  dialog.setTitle("row clicked");
-					  dialog.pack();
-					  dialog.add(pan);
-					  dialog.setVisible(true);*/
-				  
-				  int row = table.getSelectedRow();
+				 int row = table.getSelectedRow();
 				int column = table.getSelectedColumn();
-				  Object data =  table.getModel().getValueAt(row, column);
-				  
-				  
+				  Object[][] data = (Object[][]) table.getValueAt(row, column);
+				  String string = new String().toString();
+				  string.valueOf(data);
 				  JPanel jp = new JPanel(); 
 				
 				jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
@@ -132,7 +84,7 @@ public class BSresult {
 				  title.setBounds(20, 20, 30, 30);
 				  tf1 = new JTextField();
 				  tf1.setBounds(40,40,30,40);
-				
+				  tf1.setText(string);
 				  JDialog dialog = new JDialog();
 				  dialog.setLocationRelativeTo(frame);
 				  dialog.setSize(300, 300);
@@ -151,6 +103,7 @@ public class BSresult {
 		  
 		// TODO Auto-generated constructor stub
 	}
+
 	
 	
 }

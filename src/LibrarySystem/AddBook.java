@@ -7,28 +7,33 @@ import javax.swing.*;
 
 public class AddBook extends JDialog implements ActionListener {
     
-    public static void main(String[] args) {
-        new AddBook();
-    }
+   
     
-    int len = 4;
+    int len = 5;
     int textSize = 20;
-    String[] fields = {"Title", "ISBN", "Author", "Image"};
+    String[] fields = {"Title", "ISBN", "Author", "Image" ,"Available"};
     JTextField[] texts = {new JTextField(textSize), 
+        new JTextField(textSize), 
         new JTextField(textSize), 
         new JTextField(textSize), 
         new JTextField(textSize)};
     // used to access submitted values
-    String[] results = {"null", "null", "null", "null"};
+    String[] results = {"null", "null", "null", "null","null"};
+    
+    		
+   
+    
+    dbManager db = new dbManager();
+    
     
     public AddBook() {
         
         // main dialog frame
         JPanel pan = new JPanel();
-        pan.setLayout(new GridLayout(6, 1));
+        pan.setLayout(new GridLayout(7, 1));
         // dialog title
         pan.add(new JLabel("Add New Book"));
-        
+    db.getConnection();    
         /**
          * adding label and textfield to a temporary panel
          * which is put in to the grid layout of the main panel
@@ -58,7 +63,7 @@ public class AddBook extends JDialog implements ActionListener {
         this.add(pan);
         //this.setSize(320, 480);
         this.pack();
-        this.setVisible(true);
+       
     }
 
     @Override
@@ -70,6 +75,12 @@ public class AddBook extends JDialog implements ActionListener {
             for (int i = 0; i < len; i++) {
             	results[i] = texts[i].getText();
             }
+           
+            int isbn = Integer.valueOf(results[1]);
+            int av = Integer.valueOf(results[4]);
+            
+        	db.addBook(results[0], isbn, results[2], results[3],av);
+            
             this.setVisible(false);
             
         } else if (ae.getActionCommand() == "Cancel") {

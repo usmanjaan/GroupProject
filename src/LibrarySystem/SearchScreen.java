@@ -15,24 +15,29 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JTextField;
 
 
 
 public class SearchScreen extends JFrame implements ActionListener {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	//Declaring the all attributes so other methods can able to access
 	JButton bsearch,exit;
 	JTextField search;
 	JPanel bpanel,searchpanel;
 	JLabel lsearch;
+	//BSresult bs = new BSresult();
 	Menubar mb  = new Menubar();
 	JMenuBar menubar = new JMenuBar();
+	
+
+	
 	
 	public SearchScreen()
 	{
@@ -48,28 +53,35 @@ public class SearchScreen extends JFrame implements ActionListener {
 		
 		setJMenuBar(menubar);
 		menubar.add(mb.bookMenu());
+		menubar.add(mb.customerMenu());
 		menubar.add(mb.logoutMenu());
 		
 
 		lsearch = new JLabel("Search");
-		lsearch.setBounds(150,180,50,30);
+		lsearch.setBounds(150,50,50,30);
 		
 		search = new JTextField();
-		search.setBounds(200,185,400,25);
+		search.setBounds(200,52,400,25);
 		search.setToolTipText("search here by name,isbn, or anything");
 		
+		
 		bsearch = new JButton("Search");
-		bsearch.setBounds(580, 400, 80, 20);
+		bsearch.setBounds(580, 420, 80, 20);
 		bsearch.addActionListener(this);
 		
 		exit = new JButton("Exit");
-		exit.setBounds(670, 400, 80, 20);
+		exit.setBounds(670, 420, 80, 20);
 		exit.addActionListener(this);
+		
+		
+		
+		 
 		
 		add(lsearch);
 		add(search);
 		add(bsearch);
 		add(exit);
+		setVisible(true);
 		
 		
 	}
@@ -77,12 +89,32 @@ public class SearchScreen extends JFrame implements ActionListener {
 		
 	public void actionPerformed (ActionEvent e)
 	{
+	
+		if(e.getSource()== exit)
+		{
+			System.exit(0);
+			
+			
+		}
+		if(e.getSource()== bsearch)
+		{
+			
+			setVisible(false);
+			
+		 try {
+			new BSresult(search.getText());
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		}
 		
 	}
 	
 	public static void main(String arg[])
 	{
-		SearchScreen w = new SearchScreen();
-		w.setVisible(true);
+		
+		new SearchScreen();
 	}
 }

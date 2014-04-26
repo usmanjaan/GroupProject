@@ -7,9 +7,7 @@ import javax.swing.*;
 
 public class AddCust extends JDialog implements ActionListener {
     
-    public static void main(String[] args) {
-        new AddCust();
-    }
+    
     
     int len = 5;
     int textSize = 20;
@@ -19,9 +17,9 @@ public class AddCust extends JDialog implements ActionListener {
         new JTextField(textSize), new JTextField(textSize)};
     // used to access submitted values
     String[] results = {"null", "null", "null", "null", "null"};
-    
+    dbManager db = new dbManager();
     public AddCust() {
-        
+    	db.getConnection(); 
         // main dialog frame
         JPanel pan = new JPanel();
         pan.setLayout(new GridLayout(7, 1));
@@ -51,7 +49,6 @@ public class AddCust extends JDialog implements ActionListener {
         this.add(pan);
         //this.setSize(320, 480);
         this.pack();
-        this.setVisible(true);
     }
 
     @Override
@@ -61,6 +58,8 @@ public class AddCust extends JDialog implements ActionListener {
             for (int i = 0; i < len; i++) {
             	results[i] = texts[i].getText();
             }
+            //int active =Integer.valueOf(results[5]);
+            db.addUser(results[0], results[1], results[2], results[3], results[4], 0);
             this.setVisible(false);
         } else if (ae.getActionCommand() == "Cancel") {
             this.setVisible(false);

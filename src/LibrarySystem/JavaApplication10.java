@@ -43,6 +43,7 @@ public class JavaApplication10 implements ActionListener {
         if (ae.getActionCommand() == "add customer") {
         
             AddCust dialog = new AddCust();
+            dialog.setVisible(true);
             //System.out.println("asdfadsfasdf");
             
         } else if (ae.getActionCommand() == "add book") {

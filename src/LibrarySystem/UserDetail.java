@@ -71,7 +71,7 @@ public class UserDetail extends JFrame {
 			     "Pool", new Integer(10), new Boolean(false)}
 		        };
 		
-		JTable table = new JTable(data, columnNames);
+		JTable table = new JTable(data,columnNames);
 		//table.setPreferredScrollableViewportSize(new Dimension(300, 70));
         //table.setFillsViewportHeight(true);
         //JScrollPane scrollPane = new JScrollPane(table);
