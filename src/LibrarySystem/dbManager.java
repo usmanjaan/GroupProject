@@ -74,7 +74,7 @@ public class dbManager {
 
 		return resultset;
 	}
-	
+	//done
 	public void addBook(String title, int isbn, String author, String image, int available) {
 
 		PreparedStatement statement = null;
@@ -100,7 +100,7 @@ public class dbManager {
 			}
 		}
 	}
-
+//done
 	public void updateBook(String title, String author, String image, int available, int ISBN) {
 
 		PreparedStatement statement = null;
@@ -126,7 +126,7 @@ public class dbManager {
 			}
 		}
 	}
-
+//done
 	public void removeBook(int ISBN) {
 		PreparedStatement statement = null;
 
@@ -169,7 +169,7 @@ public class dbManager {
 			}
 		}
 	}
-
+//done
 	public void subtractAvailable(int ISBN, int num) {
 		PreparedStatement statement = null;
 
@@ -207,7 +207,7 @@ public class dbManager {
 
 		return resultset;
 	}
-
+//done
 	public void addUser(String uname, String pwd, String fname, String lname, String email, int active) {
 		
 		PreparedStatement statement = null;
@@ -302,6 +302,7 @@ public class dbManager {
 	
 	public void returnBook(){
 	}
+	//done
 	public String getPassword(String us) throws ClassNotFoundException {
 		String pass  = null;
 		ResultSet resultset = null;
@@ -323,7 +324,7 @@ public class dbManager {
 		}
 				return pass;
 	}
-
+//done
 	public ArrayList<String[]> AllBook() throws ClassNotFoundException {
 		ResultSet resultset = null;
 		PreparedStatement statement = null;

@@ -33,7 +33,7 @@ public class AddBook extends JDialog implements ActionListener {
         pan.setLayout(new GridLayout(7, 1));
         // dialog title
         pan.add(new JLabel("Add New Book"));
-    db.getConnection();    
+        db.getConnection();    
         /**
          * adding label and textfield to a temporary panel
          * which is put in to the grid layout of the main panel

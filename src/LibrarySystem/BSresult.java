@@ -1,72 +1,57 @@
 package LibrarySystem;
 
 
-import java.awt.Color;
-import java.awt.Cursor;
+
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.table.JTableHeader;
+
 
 
 public class BSresult {
    
-	JButton edit,loan,delete;
-	JLabel title,label1,limage;
-	JTextField tf1,tf2,tf3;
+	JButton edit,loan,delete,exit;
 	ImageIcon image;
-	 
-	  int len = 5;
-	    int textSize = 20;
-	    String[] fields = {"Title", "ISBN", "Author", "Image" ,"Available"};
-	    JTextField[] texts = {new JTextField(textSize), 
-	        new JTextField(textSize), 
-	        new JTextField(textSize), 
-	        new JTextField(textSize), 
-	        new JTextField(textSize)};
-	    // used to access submitted values
-	    String[] results = {"null", "null", "null", "null","null"};
+	final JTable table;
+	final JFrame frame;
+	JDialog dialog;
+	String title,author,isbn,simage,available,title1,author1,image1,savailable,sisbn = null;
+	int available1,isbn1,isbnumber,iavailable;
+	int textSize = 20;
+	String[] fields = {"Title", "ISBN", "Author", "Image" ,"Available"};
+	String[] results = {"null", "null", "null", "null","null"};
+	JPanel panel,dialogPanel,ButtonPanel;
+	JTextField[] texts = {new JTextField(20), new JTextField(textSize), new JTextField(textSize), 
+	    				  new JTextField(textSize), new JTextField(textSize)};
+   
+	dbManager db= new dbManager(); 
 	
 	public BSresult(String text) throws ClassNotFoundException {
-		final JFrame frame = new JFrame("Creating a Scrollable JTable!");
-		  JPanel panel = new JPanel();
-
-		dbManager db= new dbManager();
-		//String jsearch = "DaVinci Code";//ss.search.getText();
-		//System.out.print(jsearch);
+		frame = new JFrame("Result");
+		panel = new JPanel();
 		ArrayList<String[]>  tableData=new ArrayList<>();
-		 
-		 tableData = db.getAllBook(text);
+		tableData = db.getAllBook(text);
 		
 		String[][] tableRows = tableData.toArray(new String[tableData.size()][]); // convert the ArrayList to a regular Array
 
-		
-		 
 		String[] columnNames =  {"title","author","isbn","image","available"};
-		final JTable table = new JTable( tableRows, columnNames );  
-		
-		String dd = Arrays.deepToString(tableRows).replaceAll("\r", "\n");
-		System.out.print(dd);
-		
-		
-		
-		
-		JTableHeader header = table.getTableHeader();
-		 header.setBackground(Color.yellow);
+		table = new JTable( tableRows, columnNames );  
+
 		  JScrollPane pane = new JScrollPane(table);
 		  table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		  panel.add(pane);
@@ -78,79 +63,127 @@ public class BSresult {
 		  frame.setVisible(true);
 
 		  table.addMouseListener(new MouseAdapter(){
-			  public void mouseClicked(MouseEvent e)
+			 
+			public void mouseClicked(MouseEvent e)
 			  {
-				
-				  
-				 
-				  
-				/*main dialog frame
-			        JPanel pan = new JPanel();
-			        pan.setLayout(new GridLayout(7, 1));
-			        // dialog title
-			        pan.add(new JLabel("Add New Book"));
-			       
-			        
-			        for (int i = 0; i < len; i++) {
-			        	JPanel temp = new JPanel();
-			        	temp.add(new JLabel(fields[i]));
-			        	
-			        	temp.add(texts[i]);
-			        	
-			        	pan.add(temp);
-			        }
-				  
-			        int selectedRowIndex = table.getSelectedRow();
-			        int selectedColumnIndex = table.getSelectedColumn();
+				new dialogs();
 
-			        Object ty = table.getModel().getValueAt(selectedRowIndex, selectedColumnIndex);
-			        		//texts[0].set
-			        		
-			        JDialog dialog = new JDialog();
-					  dialog.setLocationRelativeTo(frame);
-					  dialog.setSize(300, 300);
-					  dialog.setModal(true);
-					  dialog.setTitle("row clicked");
-					  dialog.pack();
-					  dialog.add(pan);
-					  dialog.setVisible(true);*/
-				  
-				  int row = table.getSelectedRow();
-				int column = table.getSelectedColumn();
-				  Object data =  table.getModel().getValueAt(row, column);
-				  
-				  
-				  JPanel jp = new JPanel(); 
-				
-				jp.setLayout(new BoxLayout(jp, BoxLayout.Y_AXIS));
-				jp.setSize(200, 200);
-				 image = new ImageIcon();
-				 limage = new JLabel(image);
-				 limage.setBounds(10,10,20,20);
-				  
-				  title = new JLabel("Title");
-				  title.setBounds(20, 20, 30, 30);
-				  tf1 = new JTextField();
-				  tf1.setBounds(40,40,30,40);
-				
-				  JDialog dialog = new JDialog();
-				  dialog.setLocationRelativeTo(frame);
-				  dialog.setSize(300, 300);
-				  dialog.setModal(true);
-				  dialog.setTitle("row clicked");
-				  dialog.pack();
-				 
-				  jp.add(limage);
-				  jp.add(title);
-				  jp.add(tf1);
-				  dialog.add(jp);
-				  dialog.setVisible(true);
-				  System.out.print("yes");
 			  }
+			
+			
 		  });
+		  
+		 
 		  
 		// TODO Auto-generated constructor stub
 	}
 	
+	public class dialogs extends JDialog implements ActionListener
+	{
+		   
+		public dialogs()
+		{
+		   //getting which row is selected to identify the data.
+			int row = table.getSelectedRow();
+		   //getting data from table which row is selected
+		   title = (String) table.getValueAt(row, 0);
+		   author = (String) table.getValueAt(row, 1);
+		   isbn = (String) table.getValueAt(row, 2);
+		   simage = (String) table.getValueAt(row, 3);
+		   available = (String) table.getValueAt(row, 4);
+		  
+		   //converting string to integer
+		   isbnumber = Integer.parseInt(isbn);
+		   iavailable =  Integer.parseInt(available);
+		  
+		   //creating the panel for dialog where text and label are placed
+		   dialogPanel = new JPanel();
+		   dialogPanel.setLayout(new GridLayout(6, 1));
+	        
+	       
+		   for (int i = 0; i < 5; i++) {
+	        	JPanel temp = new JPanel();
+	        	temp.add(new JLabel(fields[i]));
+	        	temp.add(texts[i]);
+	        	dialogPanel.add(temp);
+	        }
+	        
+		   //setting the textfield to their data 
+		  texts[0].setText(title);
+		  texts[1].setText(author);
+		  texts[2].setText(isbn);
+		  texts[3].setText(simage);
+		  texts[4].setText(available);
+		  
+		  //getting the data from textfield for updating the book
+		  title1 = texts[0].getText();
+		  author1 = texts[1].getText();
+		  sisbn = texts[2].getText();
+		  image1 = texts[3].getText();
+		  savailable = texts[4].getText();
+		  
+		 //converting string to integer
+		  isbn1 = Integer.parseInt(sisbn);
+		  available1 = Integer.parseInt(savailable);
+		 
+		  //creating panel for buttons
+		  ButtonPanel = new JPanel();
+		  ButtonPanel.setLayout(new GridLayout(1, 4));
+		  
+		  edit = new JButton("Edit");
+		  edit.addActionListener(this);						//adding action listener to button
+		  delete = new JButton("Delete");
+		  delete.addActionListener(this);
+		  loan = new JButton("Loan");
+		  loan.addActionListener(this);
+		  exit = new JButton("Exit");
+		  exit.addActionListener(this);
+		  
+		  //adding buttons to panel
+		  ButtonPanel.add(edit);
+		  ButtonPanel.add(delete);
+		  ButtonPanel.add(loan);
+		  ButtonPanel.add(exit);
+		  
+		  //adding button panel to dialog panel
+		  dialogPanel.add(ButtonPanel);
+		  
+		   dialog = new JDialog();
+		  //dialog.setLocationRelativeTo(frame);
+		  dialog.setModal(true);
+		  dialog.setTitle(title);
+		  dialog.pack();
+		  dialog.setSize(310,300);
+		  dialog.setLocation(100,100);
+		  dialog.add(dialogPanel);
+		  dialog.setResizable(false);
+		  dialog.setVisible(true);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			if(e.getSource()== exit)
+			{
+				 dialog.setVisible(false);	
+			}
+			if(e.getSource()==delete)
+			{
+				db.removeBook(isbnumber);
+				JOptionPane.showMessageDialog(null,"successful deleted"+title);
+			}
+			if(e.getSource()==loan)
+			{
+				db.subtractAvailable(isbnumber, iavailable);
+				JOptionPane.showMessageDialog(null,"successfully loaned"+title);
+			
+			}
+			if(e.getSource()==edit)
+			{
+				db.updateBook(title1, author1, image1, available1, isbn1);
+				JOptionPane.showMessageDialog(null,"successfully updated"+title);
+			}
+		}
+	}
 	
 }
